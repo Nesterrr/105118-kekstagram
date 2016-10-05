@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Святослав Нестерук](https://up.htmlacademy.ru/javascript/7/user/105118).
-* Наставник: `Неизвестно`.
+* Наставник: `Евгений Датский`.
 
 ---
 
