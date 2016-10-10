@@ -1,12 +1,11 @@
 ﻿'use strict';
 
-function getMessage(a, b) {
+window = function getMessage(a, b) {
   if (typeof a === 'boolean') {
     if (a === true) {
       return 'Переданное GIF-изображение анимировано и содержит ' + b + ' кадров';
-    }
-    else {
-      return 'Переданное GIF-изображение не анимировано';
+    } else {
+    	return 'Переданное GIF-изображение не анимировано';
     }
   }
 
