@@ -125,7 +125,28 @@
       // 0 0 находится в левом верхнем углу холста, в противном случае
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
+
+      this._ctx.rect(
+        ((-this._container.width / 2)),
+        ((-this._container.height / 2)),
+        (this._container.width),
+        (this._container.height));
+
+      this._ctx.rect(
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+        this._resizeConstraint.side + this._ctx.lineWidth / 2,
+        this._resizeConstraint.side + this._ctx.lineWidth / 2 );
+      this._ctx.fillStyle = 'rgba(0,0,0,0.8)';
+      this._ctx.fill('evenodd');
       this._ctx.restore();
+
+      this._ctx.font = '20px Open Sans';
+      this._ctx.fillStyle = '#ffffff';
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, this._image.naturalWidth / 2 - 40, 58);
+
+      this._ctx.font = '20px Open Sans';
+      this._ctx.fillStyle = '#ffffff';
     },
 
     /**
