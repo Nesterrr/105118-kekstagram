@@ -134,17 +134,10 @@
       this._ctx.lineTo((this._container.width / 2), (-this._container.width / 2));
       this._ctx.closePath();
 
-      this._ctx.moveTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
-
-      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
-      	(this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-      	(this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-		(-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.moveTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
 
       this._ctx.closePath();
 
