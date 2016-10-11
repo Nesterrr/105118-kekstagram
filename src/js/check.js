@@ -1,12 +1,12 @@
 ﻿'use strict';
 
-window.function getMessage(a, b) {
+function getMessage(a, b) { // eslint-disable-line no-unused-vars
   if (typeof a === 'boolean') {
     if (a === true) {
       return 'Переданное GIF-изображение анимировано и содержит ' + b + ' кадров';
     } else {
-    	  return 'Переданное GIF-изображение не анимировано';
-      }
+      return 'Переданное GIF-изображение не анимировано';
+    }
   }
 
   if (typeof a === 'number') {
