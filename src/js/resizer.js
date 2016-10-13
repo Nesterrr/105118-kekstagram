@@ -104,55 +104,50 @@
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
 
-      var i = 0;
+      //расстояние между точками
       var nDistBetween = 20;
+      //размер точки
       var nSizeOfDot = 4;
+      //половина размера рамки
+      var halfOfResizeConstraint = this._resizeConstraint.side / 2;
+      //1 - верхняя левая точка
+      var xLeftTop = -halfOfResizeConstraint;
+      var yLeftTopToBottom = -halfOfResizeConstraint - this._ctx.lineWidth;
+      //2 - нижняя левая точка
+      var yLeftBottom = -halfOfResizeConstraint - this._ctx.lineWidth;
+      var xBottomLeftToRight = halfOfResizeConstraint - this._ctx.lineWidth;
+      //3 - правая нижняя точка
+      var yRightBottomToTop = halfOfResizeConstraint - this._ctx.lineWidth;
+      var xRightBottom = halfOfResizeConstraint - this._ctx.lineWidth;
+      //4 - правая верхняя точка
+      var yRighttTop = halfOfResizeConstraint - this._ctx.lineWidth;
+      var xTopRightToLeft = -halfOfResizeConstraint - this._ctx.lineWidth;
 
-      this._ctx.beginPath();
+      //массив для упрощения прохода по точкам/ хранит пары x-y
+      var arrXY = [xLeftTop, yLeftTopToBottom, xBottomLeftToRight, yLeftBottom, xRightBottom, yRightBottomToTop, xTopRightToLeft, yRighttTop];
+      var l = 0;
       this._ctx.fillStyle = 'yellow';
 
-      this._ctx.arc((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, nSizeOfDot, 0, 2 * Math.PI, false);
-
-      while(i < this._resizeConstraint.side ) {
-        this._ctx.arc((-this._resizeConstraint.side / 2), ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth + i), nSizeOfDot, 0, 2 * Math.PI, false);
-        this._ctx.moveTo((-this._resizeConstraint.side / 2), ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth + i));
-        i = i + nDistBetween;
+      for(var i = 0; i < 5; i++) {
+        l = 0;
+        if((arrXY[i] < 0 && arrXY[i + 1] < 0) || (arrXY[i] > 0 && arrXY[i + 1] > 0)) {
+          this._ctx.beginPath();
+          while (l < this._resizeConstraint.side) {
+            this._ctx.arc(arrXY[i], (arrXY[i + 1] > 0 ) ? (arrXY[i + 1] - l) : (arrXY[i + 1] + l), nSizeOfDot, 0, 2 * Math.PI, false);
+            l = l + nDistBetween;
+          }
+          this._ctx.fill();
+          this._ctx.closePath();
+        } else {
+          this._ctx.beginPath();
+          while (l < this._resizeConstraint.side) {
+            this._ctx.arc((arrXY[i] < 0) ? (arrXY[i] + l) : (arrXY[i] - l), arrXY[i + 1], nSizeOfDot, 0, 2 * Math.PI, false);
+            l = l + nDistBetween;
+          }
+          this._ctx.fill();
+          this._ctx.closePath();
+        }
       }
-
-      this._ctx.fill();
-      this._ctx.closePath();
-
-      i = 0;
-      this._ctx.beginPath();
-      while(i < this._resizeConstraint.side ) {
-        this._ctx.arc(this._resizeConstraint.side / 2 - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth + i, nSizeOfDot, 0, 2 * Math.PI, false);
-        i = i + nDistBetween;
-      }
-
-      this._ctx.fill();
-      this._ctx.closePath();
-
-      i = 0;
-      this._ctx.beginPath();
-
-      while(i < this._resizeConstraint.side ) {
-        this._ctx.arc((-this._resizeConstraint.side / 2) - this._ctx.lineWidth + i, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, nSizeOfDot, 0, 2 * Math.PI, false);
-        i = i + nDistBetween;
-      }
-
-      this._ctx.fill();
-      this._ctx.closePath();
-
-      i = 0;
-      this._ctx.beginPath();
-
-      while(i <= this._resizeConstraint.side) {
-        this._ctx.arc((-this._resizeConstraint.side / 2) - this._ctx.lineWidth + i, (this._resizeConstraint.side / 2) - this._ctx.lineWidth, nSizeOfDot, 0, 2 * Math.PI, false);
-        i = i + nDistBetween;
-      }
-
-      this._ctx.fill();
-      this._ctx.closePath();
 
       this._ctx.beginPath();
       this._ctx.strokeStyle = 'rgba(0,0,0,0.0)';
