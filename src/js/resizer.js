@@ -88,16 +88,6 @@
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
       // чего-либо с другой обводкой.
 
-      // Толщина линии.
-      this._ctx.lineWidth = 6;
-      // Цвет обводки.
-      this._ctx.strokeStyle = '#ffe753';
-      // Размер штрихов. Первый элемент массива задает длину штриха, второй
-      // расстояние между соседними штрихами.
-      this._ctx.setLineDash([15, 10]);
-      // Смещение первого штриха от начала линии.
-      this._ctx.lineDashOffset = 7;
-
       // Сохранение состояния канваса.
       this._ctx.save();
 
@@ -113,18 +103,51 @@
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
-      this._ctx.strokeRect(
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2,
-          this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
-      // Восстановление состояния канваса, которое было до вызова ctx.save
-      // и последующего изменения системы координат. Нужно для того, чтобы
-      // следующий кадр рисовался с привычной системой координат, где точка
-      // 0 0 находится в левом верхнем углу холста, в противном случае
-      // некорректно сработает даже очистка холста или нужно будет использовать
-      // сложные рассчеты для координат прямоугольника, который нужно очистить.
+      //расстояние между точками
+      var nDistBetween = 20;
+      //размер точки
+      var nSizeOfDot = 4;
+      //половина размера рамки
+      var halfOfResizeConstraint = this._resizeConstraint.side / 2;
+      //1 - верхняя левая точка
+      var xLeftTop = -halfOfResizeConstraint;
+      var yLeftTopToBottom = -halfOfResizeConstraint - this._ctx.lineWidth;
+      //2 - нижняя левая точка
+      var yLeftBottom = -halfOfResizeConstraint - this._ctx.lineWidth;
+      var xBottomLeftToRight = halfOfResizeConstraint - this._ctx.lineWidth;
+      //3 - правая нижняя точка
+      var yRightBottomToTop = halfOfResizeConstraint - this._ctx.lineWidth;
+      var xRightBottom = halfOfResizeConstraint - this._ctx.lineWidth;
+      //4 - правая верхняя точка
+      var yRighttTop = halfOfResizeConstraint - this._ctx.lineWidth;
+      var xTopRightToLeft = -halfOfResizeConstraint - this._ctx.lineWidth;
+
+      //массив для упрощения прохода по точкам/ хранит пары x-y
+      var arrXY = [xLeftTop, yLeftTopToBottom, xBottomLeftToRight, yLeftBottom, xRightBottom, yRightBottomToTop, xTopRightToLeft, yRighttTop];
+      var l = 0;
+      this._ctx.fillStyle = 'yellow';
+
+      for(var i = 0; i < 5; i++) {
+        l = 0;
+        if((arrXY[i] < 0 && arrXY[i + 1] < 0) || (arrXY[i] > 0 && arrXY[i + 1] > 0)) {
+          this._ctx.beginPath();
+          while (l < this._resizeConstraint.side) {
+            this._ctx.arc(arrXY[i], (arrXY[i + 1] > 0 ) ? (arrXY[i + 1] - l) : (arrXY[i + 1] + l), nSizeOfDot, 0, 2 * Math.PI, false);
+            l = l + nDistBetween;
+          }
+          this._ctx.fill();
+          this._ctx.closePath();
+        } else {
+          this._ctx.beginPath();
+          while (l < this._resizeConstraint.side) {
+            this._ctx.arc((arrXY[i] < 0) ? (arrXY[i] + l) : (arrXY[i] - l), arrXY[i + 1], nSizeOfDot, 0, 2 * Math.PI, false);
+            l = l + nDistBetween;
+          }
+          this._ctx.fill();
+          this._ctx.closePath();
+        }
+      }
 
       this._ctx.beginPath();
       this._ctx.strokeStyle = 'rgba(0,0,0,0.0)';
@@ -134,10 +157,10 @@
       this._ctx.lineTo((this._container.width / 2), (-this._container.width / 2));
       this._ctx.closePath();
 
-      this._ctx.moveTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
-      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.moveTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth - 5, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth - 5);
+      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth - 5, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 + 5);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 + 5, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 + 5);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2 + 5, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth - 5);
 
       this._ctx.closePath();
 
@@ -146,14 +169,15 @@
 
       this._ctx.stroke();
 
+
+      this._ctx.font = '20px Open Sans';
+      this._ctx.fillStyle = '#ffffff';
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, -50, ((-this._resizeConstraint.side / 2) - 5 * this._ctx.lineWidth ));
+
+      this._ctx.font = '20px Open Sans';
+      this._ctx.fillStyle = '#ffffff';
+
       this._ctx.restore();
-
-      this._ctx.font = '20px Open Sans';
-      this._ctx.fillStyle = '#ffffff';
-      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image.naturalHeight, this._image.naturalWidth / 2 - 40, 58);
-
-      this._ctx.font = '20px Open Sans';
-      this._ctx.fillStyle = '#ffffff';
     },
 
     /**
