@@ -261,6 +261,23 @@
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
 
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
+
+  var btn = document.querySelector('#resize-fwd');
+
+  var validateForm = function () {
+    if(currentResizer._image.naturalWidth < resizeX) {
+      btn.disabled = true;
+    }
+  }
+  resizeX.onchange = function () {
+    validateForm();
+  }
+  validateForm();
+
   cleanupResizer();
   updateBackground();
 })();
+
