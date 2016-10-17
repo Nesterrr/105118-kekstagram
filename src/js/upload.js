@@ -261,6 +261,7 @@
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
 
+
   var resizeX = document.querySelector('#resize-x');
   var resizeY = document.querySelector('#resize-y');
   var resizeSize = document.querySelector('#resize-size');
