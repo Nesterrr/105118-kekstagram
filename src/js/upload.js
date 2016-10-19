@@ -261,23 +261,46 @@
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
 
+
   var resizeX = document.querySelector('#resize-x');
   var resizeY = document.querySelector('#resize-y');
   var resizeSize = document.querySelector('#resize-size');
 
   var btn = document.querySelector('#resize-fwd');
 
-  var validateForm = function () {
-    if(currentResizer._image.naturalWidth < resizeX) {
-      btn.disabled = true;
+  var validate = function() {
+    resizeX.min = 0;
+    resizeY.min = 0;
+    resizeSize.min = 0;
+
+    var strToNumXS = Number(resizeSize.value) + Number(resizeX.value);
+    var strToNumYS = Number(resizeSize.value) + Number(resizeY.value);
+    var strToNumX = Number(resizeX.value);
+    var strToNumY = Number(resizeY.value);
+
+    if(currentResizer) {
+      if((strToNumXS > currentResizer._image.naturalWidth) || (strToNumYS > currentResizer._image.naturalWidth) || (strToNumX < 0) || (strToNumY < 0)) {
+        btn.disabled = true;
+      }
+      if((strToNumXS < currentResizer._image.naturalWidth) && (strToNumYS < currentResizer._image.naturalWidth) && (strToNumX > 0) && (strToNumY > 0)) {
+        btn.disabled = false;
+      }
     }
-  }
-  resizeX.onchange = function () {
-    validateForm();
-  }
-  validateForm();
+  };
+
+  // Обработчики событий валидации формы
+  resizeX.oninput = function() {
+    validate();
+  };
+
+  resizeY.oninput = function() {
+    validate();
+  };
+
+  resizeSize.oninput = function() {
+    validate();
+  };
 
   cleanupResizer();
   updateBackground();
 })();
-
