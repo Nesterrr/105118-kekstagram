@@ -240,11 +240,13 @@
    */
 
   //Берём стандартный фильтр из Cookies
+
   filterImage.className = 'filter-image-preview ' + window.Cookies.get('upload-filter');
   var selectedForm = document.querySelector('#upload-' + window.Cookies.get('upload-filter'));
   selectedForm.checked = true;
 
   filterForm.onchange = function() {
+
     if (!filterMap) {
       // Ленивая инициализация. Объект не создается до тех пор, пока
       // не понадобится прочитать его в первый раз, а после этого запоминается
@@ -265,7 +267,23 @@
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
-    window.Cookies.set('upload-filter', filterMap[selectedFilter]);
+
+    var birthday = new Date();
+    birthday.setMonth(11, 9);
+    var year = birthday.getFullYear();
+    var finalDate;
+
+
+    var now = new Date();
+
+    if (now - birthday < 0) {
+      year = birthday.getFullYear() - 1;
+      birthday.setYear(year);
+    }
+
+    finalDate = (now - birthday) / (1000 * 60 * 60 * 24);
+
+    window.Cookies.set('upload-filter', filterMap[selectedFilter], { expires: finalDate });
   };
 
   cleanupResizer();
