@@ -268,38 +268,28 @@
 
   var btn = document.querySelector('#resize-fwd');
 
-  var validate = function() {
-    resizeX.min = 0;
-    resizeY.min = 0;
-    resizeSize.min = 0;
+  resizeX.min = 0;
+  resizeY.min = 0;
+  resizeSize.min = 0;
 
+  var validate = function() {
     var strToNumXS = Number(resizeSize.value) + Number(resizeX.value);
     var strToNumYS = Number(resizeSize.value) + Number(resizeY.value);
     var strToNumX = Number(resizeX.value);
     var strToNumY = Number(resizeY.value);
 
     if(currentResizer) {
+      btn.disabled = false;
       if((strToNumXS > currentResizer._image.naturalWidth) || (strToNumYS > currentResizer._image.naturalWidth) || (strToNumX < 0) || (strToNumY < 0)) {
         btn.disabled = true;
-      }
-      if((strToNumXS < currentResizer._image.naturalWidth) && (strToNumYS < currentResizer._image.naturalWidth) && (strToNumX > 0) && (strToNumY > 0)) {
-        btn.disabled = false;
       }
     }
   };
 
   // Обработчики событий валидации формы
-  resizeX.oninput = function() {
-    validate();
-  };
-
-  resizeY.oninput = function() {
-    validate();
-  };
-
-  resizeSize.oninput = function() {
-    validate();
-  };
+  resizeX.oninput = validate;
+  resizeY.oninput = validate;
+  resizeSize.oninput = validate;
 
   cleanupResizer();
   updateBackground();
