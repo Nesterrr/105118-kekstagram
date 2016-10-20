@@ -238,6 +238,12 @@
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
    */
+
+  //Берём стандартный фильтр из Cookies
+  filterImage.className = 'filter-image-preview ' + window.Cookies.get('upload-filter');
+  var selectedForm = document.querySelector('#upload-' + window.Cookies.get('upload-filter'));
+  selectedForm.checked = true;
+
   filterForm.onchange = function() {
     if (!filterMap) {
       // Ленивая инициализация. Объект не создается до тех пор, пока
@@ -259,6 +265,7 @@
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+    window.Cookies.set('upload-filter', filterMap[selectedFilter]);
   };
 
   cleanupResizer();
