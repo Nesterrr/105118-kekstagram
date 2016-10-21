@@ -261,6 +261,36 @@
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
 
+
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
+
+  var btn = document.querySelector('#resize-fwd');
+
+  resizeX.min = 0;
+  resizeY.min = 0;
+  resizeSize.min = 0;
+
+  var validate = function() {
+    var strToNumXS = Number(resizeSize.value) + Number(resizeX.value);
+    var strToNumYS = Number(resizeSize.value) + Number(resizeY.value);
+    var strToNumX = Number(resizeX.value);
+    var strToNumY = Number(resizeY.value);
+
+    if(currentResizer) {
+      btn.disabled = false;
+      if((strToNumXS > currentResizer._image.naturalWidth) || (strToNumYS > currentResizer._image.naturalWidth) || (strToNumX < 0) || (strToNumY < 0)) {
+        btn.disabled = true;
+      }
+    }
+  };
+
+  // Обработчики событий валидации формы
+  resizeX.oninput = validate;
+  resizeY.oninput = validate;
+  resizeSize.oninput = validate;
+
   cleanupResizer();
   updateBackground();
 })();
