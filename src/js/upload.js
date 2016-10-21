@@ -241,10 +241,12 @@
 
   //Берём стандартный фильтр из Cookies
 
-  filterImage.className = 'filter-image-preview ' + window.Cookies.get('upload-filter');
-  var selectedForm = document.querySelector('#upload-' + window.Cookies.get('upload-filter'));
-  selectedForm.checked = true;
-
+  if(window.Cookies.get('upload-filter')) {
+    filterImage.classList = 'filter-image-preview ' + window.Cookies.get('upload-filter');
+    var selectedForm = document.querySelector('#upload-' + window.Cookies.get('upload-filter'));
+    selectedForm.checked = true;
+  }
+  var DAYS_MS = 1000 * 60 * 60 * 24;
   filterForm.onchange = function() {
 
     if (!filterMap) {
@@ -271,18 +273,14 @@
     var birthday = new Date();
     birthday.setMonth(11, 9);
     var year = birthday.getFullYear();
-    var finalDate;
-
 
     var now = new Date();
 
     if (now - birthday < 0) {
-      year = birthday.getFullYear() - 1;
-      birthday.setYear(year);
+      birthday.setYear(year - 1);
     }
 
-    finalDate = (now - birthday) / (1000 * 60 * 60 * 24);
-
+    var finalDate = (now - birthday) / DAYS_MS;
     window.Cookies.set('upload-filter', filterMap[selectedFilter], { expires: finalDate });
   };
 
