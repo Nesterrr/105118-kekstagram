@@ -241,9 +241,10 @@
 
   //Берём стандартный фильтр из Cookies
 
-  if(window.Cookies.get('upload-filter')) {
-    filterImage.classList = 'filter-image-preview ' + window.Cookies.get('upload-filter');
-    var selectedForm = document.querySelector('#upload-' + window.Cookies.get('upload-filter'));
+  var cookie = window.Cookies.get('upload-filter');
+  if(cookie) {
+    filterImage.classList = 'filter-image-preview ' + cookie;
+    var selectedForm = document.querySelector('#upload-' + cookie);
     selectedForm.checked = true;
   }
   var DAYS_MS = 1000 * 60 * 60 * 24;
