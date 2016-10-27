@@ -110,8 +110,7 @@
   }];
   /*eslint-enable*/
 
-  var IMG_WIDTH = 182;
-  var IMG_HEIGHT = 182;
+  var IMG_SIZE = '182px';
 
   // Находим .filters и прячем его
   var filters = document.querySelector('.filters');
@@ -124,26 +123,25 @@
   var template = document.querySelector('#picture-template');
   var templateContainer = 'content' in template ? template.content : template;
 
+  var picElement = templateContainer.querySelector('.picture');
+
   // Функция напонения шаблона данными
   var addDataInTemplate = function(pic) {
-    var picElement = templateContainer.querySelector('.picture').cloneNode(true);
+    var nodeClone = picElement.cloneNode(true);
 
-    picElement.querySelector('.picture-comments').textContent = pic.comments;
-    picElement.querySelector('.picture-likes').textContent = pic.likes;
 
-    var img = new Image(IMG_WIDTH, IMG_HEIGHT);
+    nodeClone.querySelector('.picture-comments').textContent = pic.comments;
 
+    nodeClone.querySelector('.picture-likes').textContent = pic.likes;
+    var img = new Image();
     img.onload = function(evt) {
-      picElement.style.background = 'url(\'' + evt.target.src + '\')';
+      nodeClone.style = 'background:  url(\'' + evt.target.src + '\'); background-size:' + IMG_SIZE + ';';
     };
-
     img.onerror = function() {
-      picElement.classList.add('picture-load-failure');
+      nodeClone.classList.add('picture-load-failure');
     };
-
     img.src = pic.url;
-
-    return picElement;
+    return nodeClone;
   };
 
   // Функуция отрисовки шаблонов
