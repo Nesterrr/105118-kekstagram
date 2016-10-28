@@ -238,7 +238,18 @@
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
    */
+
+  //Берём стандартный фильтр из Cookies
+
+  var cookie = window.Cookies.get('upload-filter');
+  if(cookie) {
+    filterImage.classList = 'filter-image-preview ' + cookie;
+    var selectedForm = document.querySelector('#upload-' + cookie);
+    selectedForm.checked = true;
+  }
+  var DAYS_MS = 1000 * 60 * 60 * 24;
   filterForm.onchange = function() {
+
     if (!filterMap) {
       // Ленивая инициализация. Объект не создается до тех пор, пока
       // не понадобится прочитать его в первый раз, а после этого запоминается
@@ -259,6 +270,19 @@
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+
+    var birthday = new Date();
+    birthday.setMonth(11, 9);
+    var year = birthday.getFullYear();
+
+    var now = new Date();
+
+    if (now - birthday < 0) {
+      birthday.setYear(year - 1);
+    }
+
+    var finalDate = (now - birthday) / DAYS_MS;
+    window.Cookies.set('upload-filter', filterMap[selectedFilter], { expires: finalDate });
   };
 
 
