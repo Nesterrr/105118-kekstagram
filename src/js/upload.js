@@ -6,8 +6,7 @@
  */
 
 'use strict';
-
-(function() {
+define(function() {
   /** @enum {string} */
   var FileType = {
     'GIF': '',
@@ -317,4 +316,4 @@
 
   cleanupResizer();
   updateBackground();
-})();
+});
