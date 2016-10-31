@@ -1,6 +1,13 @@
-var addDataInTemplate = function(pic) {
-    var nodeClone = picElement.cloneNode(true);
+'use strict';
 
+define(function() {
+  var IMG_SIZE = 182;
+  var template = document.querySelector('#picture-template');
+  var templateContainer = 'content' in template ? template.content : template;
+  var picElement = templateContainer.querySelector('.picture');
+
+  var addDataInTemplate = function(pic) {
+    var nodeClone = picElement.cloneNode(true);
 
     nodeClone.querySelector('.picture-comments').textContent = pic.comments;
 
@@ -18,4 +25,7 @@ var addDataInTemplate = function(pic) {
     };
     img.src = pic.url;
     return nodeClone;
-};
+  };
+  return addDataInTemplate;
+});
+
