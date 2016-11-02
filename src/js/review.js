@@ -24,8 +24,7 @@ define(['./gallery'], function() {
       nodeClone.classList.add('picture-load-failure');
     };
     img.src = pic.url;
-
-    nodeClone.querySelector('img').onclick = function(){
+    nodeClone.onclick = function(){
       x.show(i);
     };
 

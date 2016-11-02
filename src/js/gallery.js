@@ -11,36 +11,38 @@ define(['./load'], function(){
     this.galleryOverlay = document.querySelector('.gallery-overlay');
     this.galleryOverlayClose = document.querySelector('.gallery-overlay-close');
     this.galleryOverlayImage = document.querySelector('.gallery-overlay-image');
-    console.log('Gallery');
+    //console.log('Gallery');
   }
 
   Gallery.prototype.setPictures = function(pictures){
     this.pictures = pictures;
-    console.log('set');
-  }
+   // console.log('set');
+  };
 
   Gallery.prototype.show = function(num){
-    console.log('show');
     this.galleryOverlay.classList.remove('invisible');
     //this.setActivePicture(num);
+    /*
     this.galleryOverlayImage.onclick = function(){
       self.setActivePicture(num);
-    }
+    }*/
 
     this.galleryOverlayClose.onclick = function(){
-      self.hide();
+      console.log('aaa');
+      //self.hide();
     }
     console.log('show');
+
   }
 
   Gallery.prototype.hide = function(){
-    /*
+
     self.galleryOverlay.classList.add('invisible');
-    self.galleryOverlayImage.onclick = null;
-    self.galleryOverlayClose.onclick = null;*/
+    //self.galleryOverlayImage.onclick = null;
+   // self.galleryOverlayClose.onclick = null;
   }
   Gallery.prototype.setActivePicture = function(num) {
-    console.log('setActivePicture');
+    //console.log('setActivePicture');
 
     self.activePicture = num;
     self.galleryOverlayImage.src = self.pictures;
