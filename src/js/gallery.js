@@ -1,41 +1,53 @@
 'use strict';
 
-define(function(){
-  function Gallery(pictures, activePicture){
+define(['./load'], function(){
+
+  function Gallery(pictures, activePictureNum){
+    var self = this;
+
     this.pictures = pictures;
-    this.activePicture = activePicture;
+    this.activePicture = activePictureNum;
 
     this.galleryOverlay = document.querySelector('.gallery-overlay');
     this.galleryOverlayClose = document.querySelector('.gallery-overlay-close');
     this.galleryOverlayImage = document.querySelector('.gallery-overlay-image');
+    console.log('Gallery');
   }
 
   Gallery.prototype.setPictures = function(pictures){
     this.pictures = pictures;
+    console.log('set');
   }
 
   Gallery.prototype.show = function(num){
-
+    console.log('show');
     this.galleryOverlay.classList.remove('invisible');
-
+    //this.setActivePicture(num);
     this.galleryOverlayImage.onclick = function(){
-      this.setActivePicture(num);
+      self.setActivePicture(num);
     }
 
     this.galleryOverlayClose.onclick = function(){
-      this.hide();
+      self.hide();
     }
+    console.log('show');
   }
 
   Gallery.prototype.hide = function(){
-    this.galleryOverlay.classList.add('invisible');
-    this.galleryOverlayImage.onclick = null;
-    this.galleryOverlayClose.onclick = null;
+    /*
+    self.galleryOverlay.classList.add('invisible');
+    self.galleryOverlayImage.onclick = null;
+    self.galleryOverlayClose.onclick = null;*/
   }
-  Gallery.prototype.setPictures = function(num) {
-    this.activePicture = num;
-    this.galleryOverlayImage.src =
+  Gallery.prototype.setActivePicture = function(num) {
+    console.log('setActivePicture');
+
+    self.activePicture = num;
+    self.galleryOverlayImage.src = self.pictures;
+
+    self.galleryOverlay.querySelector('.likes-count').textContent = self.pictures.like-count.textContent;
+    self.galleryOverlay.querySelector('.comments-count').textContent = self.pictures.comments-count.textContent;
   }
 
-  return new Gallery();
+  return  x = new Gallery();
 });
