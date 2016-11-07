@@ -6,7 +6,7 @@ define(['./gallery'], function() {
   var templateContainer = 'content' in template ? template.content : template;
   var picElement = templateContainer.querySelector('.picture');
 
-  var addDataInTemplate = function(pic, i) {
+  var addDataInTemplate = function(pic, i, gallery) {
     var nodeClone = picElement.cloneNode(true);
 
     nodeClone.querySelector('.picture-comments').textContent = pic.comments;
@@ -24,10 +24,11 @@ define(['./gallery'], function() {
       nodeClone.classList.add('picture-load-failure');
     };
     img.src = pic.url;
-    nodeClone.onclick = function(){
-      x.show(i);
-    };
 
+    nodeClone.querySelector('img').onclick = function(event) {
+      event.preventDefault();
+      gallery.show(i);
+    };
     return nodeClone;
   };
   return addDataInTemplate;

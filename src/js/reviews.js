@@ -1,18 +1,14 @@
 'use strict';
 
-define(['./review.js', './load.js', './gallery'], function(addDataInTemplate, load) {
+define([ './review.js', './load.js', './gallery'], function(addDataInTemplate, load, gallery) {
   var PIC_URL = 'http://localhost:1507/api/pictures';
 
   var picturesContainer = document.querySelector('.pictures');
 
   var renderPictures = function(pictures) {
-    x.setPictures(pictures);
-
+    gallery.setPictures(pictures);
     pictures.forEach(function(pic, i) {
-      picturesContainer.appendChild(addDataInTemplate(pic, i));
-      pic.onclick = function() {
-        x.show(i);
-      }
+      picturesContainer.appendChild(addDataInTemplate(pic, i, gallery));
     });
   };
   load(PIC_URL, renderPictures);
