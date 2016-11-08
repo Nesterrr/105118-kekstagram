@@ -1,12 +1,12 @@
 'use strict';
 
-define(['./gallery'], function() {
+define(['./gallery'], function(gallery) {
   var IMG_SIZE = 182;
   var template = document.querySelector('#picture-template');
   var templateContainer = 'content' in template ? template.content : template;
   var picElement = templateContainer.querySelector('.picture');
 
-  var addDataInTemplate = function(pic, i, gallery) {
+  var addDataInTemplate = function(pic, i) {
     var nodeClone = picElement.cloneNode(true);
 
     nodeClone.querySelector('.picture-comments').textContent = pic.comments;

@@ -8,7 +8,7 @@ define(['./review.js', './load.js', './gallery'], function(addDataInTemplate, lo
   var renderPictures = function(pictures) {
     gallery.setPictures(pictures);
     pictures.forEach(function(pic, i) {
-      picturesContainer.appendChild(addDataInTemplate(pic, i, gallery));
+      picturesContainer.appendChild(addDataInTemplate(pic, i));
     });
   };
   load(PIC_URL, renderPictures);
