@@ -1,6 +1,6 @@
 'use strict';
 
-define(['./load'], function() {
+define(['./load', './review'], function() {
   function Gallery(pictures, activePictureNum) {
     this.pictures = pictures;
     this.activePicture = activePictureNum;
