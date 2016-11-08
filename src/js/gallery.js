@@ -24,18 +24,12 @@ define(['./load'], function() {
       self.hide();
     };
 
-    var galleryNum = num;
     this.galleryOverlayImage.onclick = function() {
-      if(galleryNum === num) {
-        galleryNum++;
-        num++;
-        self.setActivePicture(galleryNum);
-      }
+      num++;
       if(num === self.pictures.length) {
-        galleryNum = 0;
         num = 0;
-        self.setActivePicture(galleryNum);
       }
+      self.setActivePicture(num);
     };
   };
 
@@ -47,16 +41,11 @@ define(['./load'], function() {
 
   Gallery.prototype.setActivePicture = function(num) {
     this.activePicture = num;
-
     var self = this;
-    this.pictures.forEach(function(item, i) {
-      if(i === num) {
-        self.galleryOverlayImage.setAttribute('src', item.url);
-        document.querySelector('.likes-count').innerHTML = item.likes;
-        document.querySelector('.comments-count').innerHTML = item.comments;
-      }
-    });
-  };
 
+    self.galleryOverlayImage.setAttribute('src', this.pictures[num].url);
+    document.querySelector('.likes-count').innerHTML = this.pictures[num].likes;
+    document.querySelector('.comments-count').innerHTML = this.pictures[num].comments;
+  };
   return new Gallery();
 });
