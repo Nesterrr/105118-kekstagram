@@ -12,11 +12,8 @@ define(['./gallery'], function(gallery) {
     this.element = element;
   }
 
-  Picture.prototype.remove = function(i) {
-    this.element.removeEventListener('onclick', function(event) {
-      event.preventDefault();
-      gallery.show(i);
-    });
+  Picture.prototype.remove = function() {
+    this.element.onlick = null;
   };
 
   Picture.prototype.setData = function(data) {
