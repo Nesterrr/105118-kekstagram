@@ -49,7 +49,6 @@ define(['./gallery'], function(gallery) {
       gallery.show(i);
     };
   };
-
-  return new Picture();
+  return Picture;
 });
 
