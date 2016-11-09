@@ -12,8 +12,11 @@ define(['./gallery'], function(gallery) {
     this.element = element;
   }
 
-  Picture.prototype.remove = function() {
-    this.element.querySelector('img').removeEventListener('onclick', function() {});
+  Picture.prototype.remove = function(i) {
+    this.element.removeEventListener('onclick', function(event) {
+      event.preventDefault();
+      gallery.show(i);
+    });
   };
 
   Picture.prototype.setData = function(data) {
@@ -44,7 +47,7 @@ define(['./gallery'], function(gallery) {
   };
 
   Picture.prototype.addEvntHandl = function(i) {
-    this.element.querySelector('img').onclick = function(event) {
+    this.element.onclick = function(event) {
       event.preventDefault();
       gallery.show(i);
     };
