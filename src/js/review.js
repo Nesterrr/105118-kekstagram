@@ -1,36 +1,54 @@
 'use strict';
 
 define(['./gallery'], function(gallery) {
+
   var IMG_SIZE = 182;
   var template = document.querySelector('#picture-template');
   var templateContainer = 'content' in template ? template.content : template;
   var picElement = templateContainer.querySelector('.picture');
 
-  var addDataInTemplate = function(pic, i) {
-    var nodeClone = picElement.cloneNode(true);
+  function Picture(data, element) {
+    this.data = data;
+    this.element = element;
+  }
 
-    nodeClone.querySelector('.picture-comments').textContent = pic.comments;
+  Picture.prototype.remove = function() {
+    this.element.onlick = null;
+  };
 
-    nodeClone.querySelector('.picture-likes').textContent = pic.likes;
+  Picture.prototype.setData = function(data) {
+    this.data = data;
+  };
+
+  Picture.prototype.addDataInTemplate = function() {
+    this.element = picElement.cloneNode(true);
+
+    this.element.querySelector('.picture-comments').textContent = this.data.comments;
+
+    this.element.querySelector('.picture-likes').textContent = this.data.likes;
+
     var img = new Image();
+    var self = this.element;
 
     img.onload = function(evt) {
-      var nodeImg = nodeClone.querySelector('img');
+      var nodeImg = self.querySelector('img');
       nodeImg.src = evt.target.src;
       nodeImg.width = IMG_SIZE;
       nodeImg.heigth = IMG_SIZE;
     };
     img.onerror = function() {
-      nodeClone.classList.add('picture-load-failure');
+      self.classList.add('picture-load-failure');
     };
-    img.src = pic.url;
+    img.src = this.data.url;
+    return this.element;
+  };
 
-    nodeClone.querySelector('img').onclick = function(event) {
+  Picture.prototype.addEvntHandl = function(i) {
+    this.element.onclick = function(event) {
       event.preventDefault();
       gallery.show(i);
     };
-    return nodeClone;
   };
-  return addDataInTemplate;
+  return Picture;
 });
 
