@@ -11,7 +11,7 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
 
   var pageNumber = 0;
 
-  var filterID = null;
+  var filterID = 'filter-popular';
 
   var picturesContainer = document.querySelector('.pictures');
 

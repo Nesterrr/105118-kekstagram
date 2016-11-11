@@ -1,32 +1,53 @@
 'use strict';
 
 module.exports = function(list, filterID) {
-  var aa = list;
-  var result = list;/*
-  switch(filterID) {
-    case 'filter-popular':
-      var BubbleSort = function(aa) {
-        var n = aa.length;
-        for (var i = 0; i < n-1; i++)
-        {
-          for (var j = 0; j < n-1-i; j++)
-          {
-            if (aa[j+1].likes > aa[j].likes)
-            {
-              var t = aa[j+1].likes; aa[j+1].likes = aa[j].likes; aa[j].likes = t;
-            }
+  var result = list;
+
+  var bubbleSort = function(picsArray, filterID) {
+    var n = picsArray.length;
+    for (var i = 0; i < n-1; i++)
+    {
+      for (var j = 0; j < n-1-i; j++)
+      {
+        if(filterID === 'filter-popular') {
+          if (picsArray[j + 1].likes > picsArray[j].likes) {
+            var t = picsArray[j + 1];
+            picsArray[j + 1] = picsArray[j];
+            picsArray[j] = t;
           }
         }
-        console.log(aa);
-        return aa;
+        if(filterID === 'filter-discussed') {
+          if (picsArray[j + 1].comments > picsArray[j].comments) {
+            var t = picsArray[j + 1];
+            picsArray[j + 1] = picsArray[j];
+            picsArray[j] = t;
+          }
+        }
+        if(filterID === 'filter-new') {
+          if (picsArray[j + 1].created > picsArray[j].created) {
+            var t = picsArray[j + 1];
+            picsArray[j + 1] = picsArray[j];
+            picsArray[j] = t;
+          }
+        }
+
       }
-      result = BubbleSort(list);
+    }
+    return picsArray;
+  }
+
+  switch(filterID) {
+    case 'filter-popular': {
+      result = bubbleSort(list, filterID);
       break;
-    case 'filter-new':
+    }
+    case 'filter-new': {
+     result = bubbleSort(list, filterID);
       break;
+    }
     case 'filter-discussed':
+      result = bubbleSort(list, filterID);
       break;
   }
- // list = aa;*/
   return result;
 };
