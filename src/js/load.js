@@ -1,7 +1,7 @@
 'use strict';
 
 define(function() {
-  var load = function(url, pageParamObj, callback){
+  var load = function(url, pageParamObj, callback) {
     var xhr = new XMLHttpRequest();
 
     xhr.onload = function(evt) {

@@ -17,7 +17,7 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
 
   var filters = document.querySelector('.filters');
 
-  filters.addEventListener('change', function(event){
+  filters.addEventListener('change', function(event) {
     var target = event.target;
 
     while(picturesContainer.firstChild) {
@@ -52,8 +52,8 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
     lastCall = Date.now();
   });
 
-  var loadPics = function(filterID, currentPageNumber) {
-    load(PIC_URL, {from: currentPageNumber * PAGE_SIZE, to: currentPageNumber * PAGE_SIZE + PAGE_SIZE, filter: filterID}, renderPictures);
-  }
+  var loadPics = function(filter, currentPageNumber) {
+    load(PIC_URL, {from: currentPageNumber * PAGE_SIZE, to: currentPageNumber * PAGE_SIZE + PAGE_SIZE, filter: filter}, renderPictures);
+  };
   loadPics(filterID, 0);
 });
