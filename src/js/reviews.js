@@ -56,4 +56,11 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
     load(PIC_URL, {from: currentPageNumber * PAGE_SIZE, to: currentPageNumber * PAGE_SIZE + PAGE_SIZE, filter: filter}, renderPictures);
   };
   loadPics(filterID, 0);
+
+  var wndSize = function() {
+    if(footer.getBoundingClientRect().bottom < window.innerHeight) {
+      loadPics(filterID, ++pageNumber);
+    }
+  };
+  wndSize();
 });
