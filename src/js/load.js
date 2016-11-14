@@ -1,14 +1,15 @@
 'use strict';
 
 define(function() {
-  var cbName = 'cb';
-  var load = function(url, callback) {
-    window[cbName] = function(data) {
-      callback(data);
+  var load = function(url, pageParamObj, callback) {
+    var xhr = new XMLHttpRequest();
+
+    xhr.onload = function(evt) {
+      var loadedData = JSON.parse(evt.target.response);
+      callback(loadedData);
     };
-    var script = document.createElement('script');
-    script.src = url + '?callback=' + cbName;
-    document.body.appendChild(script);
+    xhr.open('GET', url + '?' + 'from=' + pageParamObj.from + '&to=' + pageParamObj.to + '&filter=' + pageParamObj.filter);
+    xhr.send();
   };
   return load;
 });
