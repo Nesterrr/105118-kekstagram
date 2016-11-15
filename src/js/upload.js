@@ -320,19 +320,17 @@ define(function() {
     resizeSize.value = currentResizer.getConstraint().side;
   };
 
-  window.addEventListener('resizerchange', function() {
-    formInitSynch();
-  });
+  window.addEventListener('resizerchange', formInitSynch);
 
-  resizeSize.addEventListener('change', function() {
+  resizeSize.addEventListener('input', function() {
     currentResizer.setConstraint(currentResizer.x, currentResizer.y, Number(resizeSize.value));
   });
 
-  resizeX.addEventListener('change', function() {
+  resizeX.addEventListener('input', function() {
     currentResizer.setConstraint(Number(resizeX.value), currentResizer.y, currentResizer.side);
   });
 
-  resizeY.addEventListener('change', function() {
+  resizeY.addEventListener('input', function() {
     currentResizer.setConstraint(currentResizer.x, Number(resizeY.value), currentResizer.side);
   });
 
