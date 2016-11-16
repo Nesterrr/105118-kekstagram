@@ -43,13 +43,19 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   var lastCall = Date.now();
   var TROTTL_TIMEOUT = 100;
 
-  window.addEventListener('scroll', function() {
-    if(Date.now() - lastCall >= TROTTL_TIMEOUT) {
+  var trottle = function(fn, delay) {
+    if(Date.now() - lastCall >= delay) {
       if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-        loadPics(filterID, ++pageNumber);
+        fn();
       }
     }
     lastCall = Date.now();
+  };
+
+  window.addEventListener('scroll', function() {
+    trottle(function() {
+      loadPics(filterID, ++pageNumber);
+    }, TROTTL_TIMEOUT);
   });
 
   var loadPics = function(filter, currentPageNumber) {
