@@ -43,25 +43,26 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   var lastCall = Date.now();
   var TROTTL_TIMEOUT = 100;
 
-  var trottle = function(fn, delay) {
+  var trotlle = function(fn, delay) {
     if(Date.now() - lastCall >= delay) {
       if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-        fn();
+        return fn;
       }
     }
     lastCall = Date.now();
   };
 
-  window.addEventListener('scroll', function() {
-    trottle(function() {
-      loadPics(filterID, ++pageNumber);
-    }, TROTTL_TIMEOUT);
-  });
-
   var loadPics = function(filter, currentPageNumber) {
     load(PIC_URL, {from: currentPageNumber * PAGE_SIZE, to: currentPageNumber * PAGE_SIZE + PAGE_SIZE, filter: filter}, renderPictures);
   };
   loadPics(filterID, 0);
+
+
+  var scroll = loadPics(filterID, ++pageNumber);
+
+  var trottledScroll = trotlle(scroll, TROTTL_TIMEOUT);
+
+  window.addEventListener('scroll', trottledScroll);
 
   var wndSize = function() {
     if(footer.getBoundingClientRect().bottom < window.innerHeight) {
