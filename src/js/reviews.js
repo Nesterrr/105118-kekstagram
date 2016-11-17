@@ -44,9 +44,10 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   var TROTTL_TIMEOUT = 100;
 
   var trotlle = function(fn, delay) {
+    var result = Object.assign({}, fn);
     if(Date.now() - lastCall >= delay) {
       if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-        return fn;
+        return result;
       }
     }
     lastCall = Date.now();
