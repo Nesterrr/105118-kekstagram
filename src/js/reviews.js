@@ -41,16 +41,18 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   };
 
   var lastCall = Date.now();
-  var TROTTL_TIMEOUT = 100;
+  var THROTTL_TIMEOUT = 100;
 
-  var trotlle = function(fn, delay) {
-    var result = Object.assign({}, fn);
-    if(Date.now() - lastCall >= delay) {
-      if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-        return result;
+
+  var throttle = function(fn, delay) {
+    return function(fn, delay) {
+      if(Date.now() - lastCall >= delay) {
+        if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
+          fn();
+        }
       }
+      lastCall = Date.now();
     }
-    lastCall = Date.now();
   };
 
   var loadPics = function(filter, currentPageNumber) {
@@ -61,9 +63,9 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
 
   var scroll = loadPics(filterID, ++pageNumber);
 
-  var trottledScroll = trotlle(scroll, TROTTL_TIMEOUT);
+  var throttledScroll = throttle(scroll, THROTTL_TIMEOUT);
 
-  window.addEventListener('scroll', trottledScroll);
+  window.addEventListener('scroll', throttledScroll);
 
   var wndSize = function() {
     if(footer.getBoundingClientRect().bottom < window.innerHeight) {
