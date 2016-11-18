@@ -62,7 +62,6 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   loadPics(filterID, 0);
 
   var throttledScroll = throttle(loadPics, THROTTLE_TIMEOUT);
-  console.log('loadPics: ', throttledScroll);
 
   window.addEventListener('scroll', throttledScroll);
 
