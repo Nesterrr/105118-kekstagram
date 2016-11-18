@@ -26,6 +26,8 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
     pageNumber = 0;
 
     loadPics(target.id, pageNumber);
+    filterID = target.id;
+    wndSize();
   }, true);
 
   var renderPictures = function(pictures) {
@@ -43,17 +45,15 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   var lastCall = Date.now();
   var THROTTLE_TIMEOUT = 100;
 
-
   var throttle = function(fn, delay) {
-    console.log(fn);
-    return function(fn, delay) {
+    return function() {
       if(Date.now() - lastCall >= delay) {
         if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-          fn();
+          fn(filterID, ++pageNumber);
         }
       }
       lastCall = Date.now();
-    }
+    };
   };
 
   var loadPics = function(filter, currentPageNumber) {
@@ -62,7 +62,7 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   loadPics(filterID, 0);
 
   var throttledScroll = throttle(loadPics, THROTTLE_TIMEOUT);
-  console.log(throttledScroll);
+  console.log('loadPics: ', throttledScroll);
 
   window.addEventListener('scroll', throttledScroll);
 
