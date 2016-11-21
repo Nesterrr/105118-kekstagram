@@ -26,6 +26,8 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
     pageNumber = 0;
 
     loadPics(target.id, pageNumber);
+    filterID = target.id;
+    wndSize();
   }, true);
 
   var renderPictures = function(pictures) {
@@ -41,21 +43,29 @@ define(['./review.js', './load.js', './gallery'], function(Picture, load, galler
   };
 
   var lastCall = Date.now();
-  var TROTTL_TIMEOUT = 100;
+  var THROTTLE_TIMEOUT = 100;
 
-  window.addEventListener('scroll', function() {
-    if(Date.now() - lastCall >= TROTTL_TIMEOUT) {
-      if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
-        loadPics(filterID, ++pageNumber);
+  var throttle = function(fn, delay) {
+    return function() {
+      if(Date.now() - lastCall >= delay) {
+        fn();
       }
-    }
-    lastCall = Date.now();
-  });
+      lastCall = Date.now();
+    };
+  };
 
   var loadPics = function(filter, currentPageNumber) {
     load(PIC_URL, {from: currentPageNumber * PAGE_SIZE, to: currentPageNumber * PAGE_SIZE + PAGE_SIZE, filter: filter}, renderPictures);
   };
   loadPics(filterID, 0);
+
+  var throttledScroll = throttle(function() {
+    if (footer.getBoundingClientRect().bottom - window.innerHeight <= GAP) {
+      loadPics(filterID, ++pageNumber);
+    }
+  }, THROTTLE_TIMEOUT);
+
+  window.addEventListener('scroll', throttledScroll);
 
   var wndSize = function() {
     if(footer.getBoundingClientRect().bottom < window.innerHeight) {
