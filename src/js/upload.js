@@ -301,8 +301,8 @@ define(function() {
   resizeSize.addEventListener('input', validate);
 
   var formInitSynch = function() {
-    resizeX.value = currentResizer.getConstraint().x;
-    resizeY.value = currentResizer.getConstraint().y;
+    resizeX.value = Math.round(currentResizer.getConstraint().x);
+    resizeY.value = Math.round(currentResizer.getConstraint().y);
     resizeSize.value = currentResizer.getConstraint().side;
   };
 
